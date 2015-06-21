@@ -78,12 +78,12 @@
             //zad. 9
             List<int> marks = new List<int> { 3, 4, 5, 6, 6, 5, 5, 3 };
             List<Student> studs = new List<Student>{
-                new Student("Nunu", "Ivanov", 22, 445506, "abc@abv.bg", marks, 2),
+                new Student("Nunu", "Ivanov", 22, 445506, "abc@abv.bg", marks,2),
                 new Student("Cuci", "Petrov", 22, 315562, "abd@abv.bg", marks, 2),
                 new Student("Ivan", "Cecov", 5, 445506, "abe@abv.bg", new List<int>{3,4}, 1),
                 new Student("Mundo", "Qnkov", 5, 232564, "abf@abv.bg", marks, 2),
                 new Student("Gosho", "Goshov", 22, 445506, "abg@abv.bg", new List<int>{4,5}, 1),
-                new Student("Rengo", "Mehdi", 5, 440266, "abh@abv.bg", marks, 1)
+                new Student("Rengo", "Mehdi", 5, 440266, "abh@abv.bg", marks, 3)
             };
 
             var groupTwo =
@@ -111,23 +111,44 @@
             var markSix =
                 from student in studs
                 where student.Marks.Contains(6)
-                select new{FirstName= student.FirstName, Marks = student.Marks };
+                select new { FirstName = student.FirstName, Marks = student.Marks };
             //zad. 14
-            Func<Student,bool> markLambda = st => {
+            Func<Student, bool> markLambda = st =>
+            {
                 if (st.Marks.Count == 2)
                     return true;
                 else return false;
-                };
+            };
             var twoMarks = studs.Where(markLambda);
 
             //zad. 15
-            var marks2 = 
+            var marks2 =
                 from student in studs
                 where student.FN.ToString().EndsWith("06")
                 select student;
-            //zad. 16
+            //zad. 16  |INNER JOIN
+            var groups = new List<Group>{
+                new Group(2,"Mathematics"),
+                new Group(1, "Physics"),
+                new Group(3, "Acountants")
+            };
+            var matStudents =
+                from student in studs
+                join groupN in groups on student.GroupNumber equals groupN.GroupNumber
+                where groupN.DepartmentName == "Mathematics"
+                select student;
+            //zad. 17
+            var list = new List<string>{
+                "short",
+                "medium string",
+                "very very very long"
+            };
+            string p = GetLongest(list);
 
-
+            //zad. 18
+            PrintGroups(studs);
+            //zad. 19
+            PrintGroupsExt(studs);
 
         }
         public static IEnumerable<Student> FirstBeforeLast(Student[] students)
@@ -161,6 +182,49 @@
         public static void PrintReverse(string str)
         {
             Console.WriteLine(str.Substring(3));
+        }
+
+        //zad. 17
+        public static string GetLongest(List<String> list)
+        {
+            var result =(
+                from item in list
+                where list.Max(i => i.Length) == item.Length
+                select item).Single();
+
+            return result;
+        }
+
+        //zad. 18
+        public static void PrintGroups(List<Student> students)
+        {
+            var result =
+                from student in students
+                group student by student.GroupNumber into groups
+                select groups;
+            foreach (var group in result)
+            {
+                Console.WriteLine("group {0}",group.First().GroupNumber);
+                foreach (var student in group)
+                {
+                    Console.WriteLine("Name:{0}",student.FirstName);
+                }
+                
+            }
+        }
+        //zad. 19
+        public static void PrintGroupsExt(List<Student> students)
+        {
+            var result = students.GroupBy(student => student.GroupNumber);
+
+            foreach (var group in result)
+            {
+                Console.WriteLine("group {0}", group.First().GroupNumber);
+                foreach (var student in group)
+                {
+                    Console.WriteLine("Name:{0}", student.FirstName);
+                }
+            }
         }
     }
 }

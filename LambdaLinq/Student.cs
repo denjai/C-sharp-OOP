@@ -8,10 +8,6 @@
         private string firstName;
         private string lastName;
         private int age;
-        private string p1;
-        private string p2;
-        private int p3;
-        private string p4;
 
         public Student(string fName, string lName, int age)
         {
@@ -28,14 +24,6 @@
             this.GroupNumber = gn;
         }
 
-        public Student(string p1, string p2, int p3, string p4)
-        {
-            // TODO: Complete member initialization
-            this.p1 = p1;
-            this.p2 = p2;
-            this.p3 = p3;
-            this.p4 = p4;
-        }
 
         public string FirstName
         {
@@ -83,7 +71,6 @@
         public List<int> Marks { get; set; }
 
         public int GroupNumber { get; set; }
-
 
         public override string ToString()
         {

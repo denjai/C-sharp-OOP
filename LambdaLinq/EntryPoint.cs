@@ -55,7 +55,7 @@
             int[] numbers = new int[] { 1, 3, 7, 21, 42 };
             var res = Devisible(numbers);
             var res2 = DevisibleEx(numbers);
-           
+
             //zad. 7
             Action<string> func = Print;
             StrDelegegate func2 = PrintReverse;
@@ -66,7 +66,7 @@
             //timer1.Execute(str, 4);
             //Timer timer2 = new Timer(func2);
             //timer2.Execute(str2, 7);
-            
+
             //zad. 8
             EventTimer timer3 = new EventTimer(5);
             EventTimer timer4 = new EventTimer(2);
@@ -74,6 +74,61 @@
             Subscriber executor2 = new Subscriber(timer4, func3);
             timer3.Execute();
             timer4.Execute();
+
+            //zad. 9
+            List<int> marks = new List<int> { 3, 4, 5, 6, 6, 5, 5, 3 };
+            List<Student> studs = new List<Student>{
+                new Student("Nunu", "Ivanov", 22, 445506, "abc@abv.bg", marks, 2),
+                new Student("Cuci", "Petrov", 22, 315562, "abd@abv.bg", marks, 2),
+                new Student("Ivan", "Cecov", 5, 445506, "abe@abv.bg", new List<int>{3,4}, 1),
+                new Student("Mundo", "Qnkov", 5, 232564, "abf@abv.bg", marks, 2),
+                new Student("Gosho", "Goshov", 22, 445506, "abg@abv.bg", new List<int>{4,5}, 1),
+                new Student("Rengo", "Mehdi", 5, 440266, "abh@abv.bg", marks, 1)
+            };
+
+            var groupTwo =
+                from student in studs
+                where student.GroupNumber == 2
+                orderby student.FirstName
+                select student;
+
+            //zad. 10
+            var groupTwoExt = studs.Where(st => st.GroupNumber == 2)
+                .OrderBy(st => st.FirstName);
+
+            //zad. 11
+            var abv =
+                from student in studs
+                where student.Email.Contains("abv.bg")
+                select student;
+
+            //zad. 12
+            var phones =
+                from student in studs
+                where student.FN.ToString().StartsWith("31")
+                select student;
+            //zad. 13
+            var markSix =
+                from student in studs
+                where student.Marks.Contains(6)
+                select new{FirstName= student.FirstName, Marks = student.Marks };
+            //zad. 14
+            Func<Student,bool> markLambda = st => {
+                if (st.Marks.Count == 2)
+                    return true;
+                else return false;
+                };
+            var twoMarks = studs.Where(markLambda);
+
+            //zad. 15
+            var marks2 = 
+                from student in studs
+                where student.FN.ToString().EndsWith("06")
+                select student;
+            //zad. 16
+
+
+
         }
         public static IEnumerable<Student> FirstBeforeLast(Student[] students)
         {
@@ -94,13 +149,13 @@
         }
         public static int[] DevisibleEx(int[] numbers)
         {
-            var devisible = numbers.Where( num => num%3==0&& num%7==0);  
+            var devisible = numbers.Where(num => num % 3 == 0 && num % 7 == 0);
             return devisible.ToArray();
         }
 
-        public static void  Print(string str)
+        public static void Print(string str)
         {
-            Console.WriteLine("sec: "+str.ToLower()); 
+            Console.WriteLine("sec: " + str.ToLower());
         }
 
         public static void PrintReverse(string str)
